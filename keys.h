@@ -1,7 +1,111 @@
+#define NUM_MUSIC_NOTES 12
+#define NUM_MUSIC_SCALES 40
+#define NUM_SCALE_INTERVALS 12
 #define NUM_MUSIC_KEYS 26
 #define NUM_MUSIC_KEY_CHORDS 7
 #define NUM_MUSIC_CHORDS 73
 #define NUM_CHORD_NOTES 6
+
+RavenMenuOption musicNoteOptions[NUM_MUSIC_NOTES] = {
+  {0,  (char *)"C"},
+  {1,  (char *)"C#"},
+  {2,  (char *)"D"},
+  {3,  (char *)"D#"},
+  {4,  (char *)"E"},
+  {5,  (char *)"F"},
+  {6,  (char *)"F#"},
+  {7,  (char *)"G"},
+  {8,  (char *)"G#"},
+  {9,  (char *)"A"},
+  {10, (char *)"A#"},
+  {11, (char *)"B"},
+};
+
+RavenMenuOption musicScaleOptions[NUM_MUSIC_SCALES] = {
+  {0,  (char *)"CHROMATIC"},                // 0  chromatic
+  {1,  (char *)"AEOLIAN"},                  // 1  aeolian
+  {2,  (char *)"MAJ BLUES"},                // 2  major blues
+  {3,  (char *)"MIN BLUES"},                // 3  minor blues
+  {4,  (char *)"DORIAN"},                   // 4  dorian
+  {5,  (char *)"EGYPTIAN"},                 // 5  egyptian
+  {6,  (char *)"ENGMTIC"},                  // 6  enigmatic
+  {7,  (char *)"FLAMENCO"},                 // 7  flamenco
+  {8,  (char *)"HARM MAJ"},                 // 8  harmonic major
+  {9,  (char *)"HARM MIN"},                 // 9  harmonic minor
+  {10, (char *)"HUNG MAJ"},                 // 10 hungarian major
+  {11, (char *)"HUNG MIN"},                 // 11 hungarian minor
+  {12, (char *)"HEXA MIN"},                 // 12 minor hexatonic
+  {13, (char *)"ION PENTA"},                // 13 ionian pentatonic
+  {14, (char *)"MELOD MIN"},                // 14 melodic minor
+  {15, (char *)"MAJ PENTA"},                // 15 major pentatonic
+  {16, (char *)"MIN PENTA"},                // 16 minor pentatonic
+  {17, (char *)"MIN 6PENT"},                // 17 minor six pentatonic
+  {18, (char *)"LOC MAJ"},                  // 18 locrian major
+  {19, (char *)"LOC PENTA"},                // 19 locrian pentatonic
+  {20, (char *)"LOC SUPER"},                // 20 super locrian pentatonic
+  {21, (char *)"LOC ULTRA"},                // 21 ultralocrian
+  {22, (char *)"LYD MIN"},                  // 22 lydian minor
+  {23, (char *)"LYD PENTA"},                // 23 lydian pentatonic
+  {24, (char *)"2XHARMLYD"},                // 24 double harmonic lydian
+  {25, (char *)"2XHARMMAJ"},                // 25 double harmonic major
+  {26, (char *)"MIXOLYDIA"},                // 26 mixolydian
+  {27, (char *)"MIXOPENTA"},                // 27 mixolydian pentatonic
+  {28, (char *)"NEOMAJ"},                   // 28 neopolitan major
+  {29, (char *)"NEOMAJPENT"},               // 29 neopolitan major pentatonic
+  {30, (char *)"ORIENTAL"},                 // 30 oriental
+  {31, (char *)"MALKOSRAGA"},               // 31 malkos raga
+  {32, (char *)"PERSIAN"},                  // 32 persian
+  {33, (char *)"PHRYGIAN"},                 // 33 phrygian
+  {34, (char *)"PIONGIO"},                  // 34 piongio
+  {35, (char *)"PROMETHEUS"},               // 35 prometheus
+  {36, (char *)"RITUSEN"},                  // 36 ritusen
+  {37, (char *)"SCRIABIN"},                 // 37 scriabin
+  {38, (char *)"WHOLETONE"},                // 38 whole tone
+  {39, (char *)"WHOLEPENTA"}                // 39 whole tone pentatonic
+};
+
+const int musicScaleIntervals[NUM_MUSIC_SCALES][NUM_SCALE_INTERVALS] = {
+  {1,2,3,4,5,6,7,8,9,10,11,12},             // 0  chromatic
+  {2,3,5,7,8,10,12,14,15,17,19,20},         // 1  aeolian
+  {2,3,4,7,9,12,14,15,16,19,21,24},         // 2  major blues
+  {3,5,6,7,10,12,15,17,18,19,22,24},        // 3  minor blues
+  {2,3,5,7,9,10,12,14,15,17,19,21},         // 4  dorian
+  {2,5,7,10,12,14,17,19,22,24,26,29},       // 5  egyptian
+  {1,4,6,8,10,11,12,13,16,18,20,22},        // 6  enigmatic
+  {1,3,4,6,7,10,12,13,15,16,18,19},         // 7  flamenco
+  {2,4,5,7,8,11,12,14,16,17,19,20},         // 8  harmonic major
+  {2,3,5,7,8,11,12,14,15,17,19,20},         // 9  harmonic minor
+  {3,4,6,7,9,10,12,15,16,18,19,21},         // 10 hungarian major
+  {2,3,6,7,8,11,12,14,15,18,19,20},         // 11 hungarian minor
+  {2,3,5,7,11,12,14,15,17,19,23,24},        // 12 minor hexatonic
+  {4,5,7,11,12,16,17,19,23,24,28,29},       // 13 ionian pentatonic
+  {2,3,5,7,9,11,12,14,15,17,19,21},         // 14 melodic minor
+  {2,4,7,9,12,14,16,19,21,24,26,28},        // 15 major pentatonic
+  {3,5,7,10,12,15,17,19,22,24,27,29},       // 16 minor pentatonic
+  {3,5,7,9,12,15,17,19,21,24,27,29},        // 17 minor six pentatonic
+  {2,4,5,6,8,10,12,14,16,17,18,20},         // 18 locrian major
+  {3,5,6,10,12,15,17,18,22,24,27,29},       // 19 locrian pentatonic
+  {3,4,6,10,12,15,16,18,22,24,27,28},       // 20 super locrian pentatonic
+  {1,3,4,6,8,9,12,13,15,16,18,20},          // 21 ultralocrian
+  {2,4,6,7,8,10,12,14,16,18,19,20},         // 22 lydian minor
+  {4,6,7,11,12,16,18,19,23,24,28,30},       // 23 lydian pentatonic
+  {1,4,6,7,8,11,12,13,16,18,19,20},         // 24 double harmonic lydian
+  {1,4,5,7,8,11,12,13,16,17,19,20},         // 25 double harmonic major
+  {2,4,5,7,9,10,12,14,16,17,19,21},         // 26 mixolydian
+  {4,5,7,10,12,16,17,19,22,24,28,29},       // 27 mixolydian pentatonic
+  {1,3,5,7,9,11,12,13,15,17,19,21},         // 28 neopolitan major
+  {4,5,6,10,12,16,17,18,22,24,28,29},       // 29 neopolitan major pentatonic
+  {1,4,5,6,9,10,12,13,16,17,18,21},         // 30 oriental
+  {3,5,8,10,12,15,17,20,22,24,27,29},       // 31 malkos raga
+  {1,4,5,6,8,11,12,13,16,17,18,20},         // 32 persian
+  {1,3,5,7,8,10,12,13,15,17,19,20},         // 33 phrygian
+  {2,5,7,9,10,12,14,17,19,21,22,24},        // 34 piongio
+  {2,4,6,9,10,12,14,16,18,21,22,24},        // 35 prometheus
+  {2,5,7,9,12,14,17,19,21,24,26,29},        // 36 ritusen
+  {1,4,7,9,12,13,16,19,21,24,25,28},        // 37 scriabin
+  {2,4,6,8,10,12,14,16,18,20,22,24},        // 38 whole tone
+  {4,6,8,10,12,16,18,20,22,24,28,30}        // 39 whole tone pentatonic
+};
 
 RavenMenuOption musicKeyOptions[NUM_MUSIC_KEYS] = {
   {0,  (char *)"A"},
@@ -29,7 +133,7 @@ RavenMenuOption musicKeyOptions[NUM_MUSIC_KEYS] = {
   {22, (char *)"F#m"},
   {23, (char *)"G"},
   {24, (char *)"Gm"},
-  {25, (char *)"G#m"},
+  {25, (char *)"G#m"}
 };
 
 const int musicKeyChords[NUM_MUSIC_KEYS][NUM_MUSIC_KEY_CHORDS] = {
@@ -58,7 +162,7 @@ const int musicKeyChords[NUM_MUSIC_KEYS][NUM_MUSIC_KEY_CHORDS] = {
   {55,68,0,12,23,32,43},   // 22  F#m   (F#m,G#dim,A,Bm,C#m,D,E)
   {62,1,12,20,32,44,56},   // 23  G     (G,Am,Bm,C,D,Em,F#dim)
   {63,6,13,21,33,46,52},   // 24  Gm    (Gm,Adim,Bb,Cm,Dm,Eb,F)
-  {67,7,11,23,35,43,54},   // 25  G#m   (G#m,A#dim,B,C#m,D#m,E,F#)
+  {67,7,11,23,35,43,54}    // 25  G#m   (G#m,A#dim,B,C#m,D#m,E,F#)
 };
 
 const char* chordNames[NUM_MUSIC_CHORDS][] = {
@@ -134,7 +238,7 @@ const char* chordNames[NUM_MUSIC_CHORDS][] = {
   "Gdim",  // 69
   "Gsus2", // 70
   "Gsus4", // 71
-  "G7",    // 72
+  "G7"     // 72
 };
 
 /*
@@ -288,5 +392,5 @@ const int chordStringMidiNotes[NUM_MUSIC_CHORDS][NUM_CHORD_NOTES] = {
   {7,13,19,22,25,31},  // 69  Gdim     (G-1,C#0,G0,A#0,C#1,G1)
   {7,14,19,21,26,31},  // 70  Gsus2    (G-1,D0,G0,A0,D1,G1)
   {7,12,14,19,24,31},  // 71  Gsus4    (G-1,C0,D0,G0,C1,G1)
-  {5,11,14,19,23,29},  // 72  G7       (F-1,B-1,D0,G0,B0,F1)
+  {5,11,14,19,23,29}   // 72  G7       (F-1,B-1,D0,G0,B0,F1)
 };

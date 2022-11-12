@@ -11,6 +11,6 @@
   "dependencies": {
     "@tonaljs/tonal": "^4.6.5",
     "guitar-chord-definitions": "^1.0.2",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.20"
   }
 }

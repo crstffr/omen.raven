@@ -4,9 +4,12 @@ let { chords } = require('guitar-chord-definitions/dist/chords');
 const {
   Chord,
   ChordType,
+  distance,
+  Interval,
   Key,
   Note,
   Progression,
+  Scale,
   Range
 } = require('@tonaljs/tonal');
 
@@ -20,6 +23,49 @@ const romanNums = [
   'VII','vii',
 ];
 
+const scales = [
+  ['chromatic',                         'CHROMATIC'],
+  ['aeolian',                           'AEOLIAN'],
+  ['major blues',                       'MAJ BLUES'],
+  ['minor blues',                       'MIN BLUES'],
+  ['dorian',                            'DORIAN'],
+  ['egyptian',                          'EGYPTIAN'],
+  ['enigmatic',                         'ENIGMATIC'],
+  ['flamenco',                          'FLAMENCO'],
+  ['harmonic major',                    'HARM MAJ'],
+  ['harmonic minor',                    'HARM MIN'],
+  ['hungarian major',                   'HUNG MAJ'],
+  ['hungarian minor',                   'HUNG MIN'],
+  ['minor hexatonic',                   'HEXA MIN'],
+  ['ionian pentatonic',                 'ION PENTA'],
+  ['melodic minor',                     'MELOD MIN'],
+  ['major pentatonic',                  'MAJ PENTA'],
+  ['minor pentatonic',                  'MIN PENTA'],
+  ['minor six pentatonic',              'MIN 6 PENT'],
+  ['locrian major',                     'LOC MAJ'],
+  ['locrian pentatonic',                'LOC PENTA'],
+  ['super locrian pentatonic',          'LOC SUPER'],
+  ['ultralocrian',                      'LOC ULTRA'],
+  ['lydian minor',                      'LYD MIN'],
+  ['lydian pentatonic',                 'LYD PENTA'],
+  ['double harmonic lydian',            '2X HARMLYD'],
+  ['double harmonic major',             '2X HARMMAJ'],
+  ['mixolydian',                        'MIXOLYDIA'],
+  ['mixolydian pentatonic',             'MIXO PENTA'],
+  ['neopolitan major',                  'NEOMAJ'],
+  ['neopolitan major pentatonic',       'NEOMAJPENT'],
+  ['oriental',                          'ORIENTAL'],
+  ['malkos raga',                       'MALKOSRAGA'],
+  ['persian',                           'PERSIAN'],
+  ['phrygian',                          'PHRYGIAN'],
+  ['piongio',                           'PIONGIO'],
+  ['prometheus',                        'PROMETHEUS'],
+  ['ritusen',                           'RITUSEN'],
+  ['scriabin',                          'SCRIABIN'],
+  ['whole tone',                        'WHOLETONE'],
+  ['whole tone pentatonic',             'WHOLEPENTA'],
+];
+
 for (let i in keys) {
   const key = keys[i];
   if (key.chords) {
@@ -29,6 +75,15 @@ for (let i in keys) {
   }
 }
 
+// ******************************************************
+
+generateNoteNamesArray();
+generateNoteNamesOptions();
+generateScaleNamesArray();
+generateScaleIntervals();
+
+// ******************************************************
+// ******************************************************
 // ******************************************************
 
 /** @return {Chord[]} */
@@ -71,6 +126,71 @@ function getKeyChords() {
     map[key.shortName] = Object.values(key.chords);
     return map;
   }, {});
+}
+
+// ******************************************************
+
+function generateNoteNamesArray() {
+  console.log();
+  console.log(`#define NUM_MUSIC_NOTES 12`);
+  console.log();
+  console.log(`const char* noteNames[NUM_MUSIC_NOTES][] = {`);
+  Array(12).fill(0).forEach((_, i) => {
+    const note = Note.get(Note.fromMidiSharps(i)).pc;
+    console.log(`  (char *)"${note}",`.padEnd(22), `// ${i}`);
+  });
+  console.log(`};`);
+}
+
+function generateNoteNamesOptions() {
+  console.log();
+  console.log(`#define NUM_MUSIC_NOTES 12`);
+  console.log();
+  console.log(`RavenMenuOption scaleNoteOptions[NUM_MUSIC_NOTES] = {`);
+  Array(12).fill(0).forEach((_, i) => {
+    const note = Note.get(Note.fromMidiSharps(i)).pc;
+    console.log(`  {${i},`.padEnd(6), `(char *)"${note}"},`);
+  });
+  console.log(`};`);
+}
+
+
+function generateScaleNamesArray() {
+  console.log();
+  console.log(`#define NUM_MUSIC_SCALES ${scales.length}`);
+  console.log();
+  console.log(`RavenMenuOption musicScaleOptions[NUM_MUSIC_SCALES] = {`);
+  scales.forEach(([id, name], i) => {
+    console.log(`  {${i},`.padEnd(6), `(char *)"${name}"},`.padEnd(35), ` // ${i}`.padEnd(6), `${id}`);
+  });
+  console.log(`};`);
+}
+
+// ******************************************************
+
+function generateScaleIntervals() {
+
+  const numints = 11; // 12 minus the root
+
+  console.log();
+  console.log(`#define NUM_MUSIC_SCALES ${scales.length}`);
+  console.log(`#define NUM_SCALE_INTERVALS ${numints}`);
+  console.log();
+  console.log(`const int SCALE_INTERVALS[NUM_MUSIC_SCALES][NUM_SCALE_INTERVALS] = {`);
+  scales.forEach(([id, name], i) => {
+
+    const note = Note.fromMidiSharps(0);
+    const base = Note.get(note).pc;
+    const range = Scale.rangeOf(`${note} ${id}`)(`${note}`, `${base}2`);
+
+    const set = range.map(Note.simplify).slice(1,numints+1).map(n => {
+      const dist = distance(note, n);
+      return Interval.semitones(dist);
+    });
+
+    console.log(`  {${set.join(',')}},`.padEnd(42), ` // ${i}`.padEnd(6), `${id}`);
+  });
+  console.log(`};`);
 }
 
 // ******************************************************
@@ -171,5 +291,5 @@ function generateMidiNotesForChords() {
   console.log(`};`);
 }
 
-generateMidiNotesForChords();
+// generateMidiNotesForChords();
 
