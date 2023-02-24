@@ -66,6 +66,24 @@ const scales = [
   ['whole tone pentatonic',             'WHOLEPENTA'],
 ];
 
+const tuningOctaves = [-1, -1, 0, 0, 0, 1];
+
+const tunings = {
+  'STANDARD':     ['E', 'A', 'D', 'G', 'B', 'E'],
+  'DROP D':       ['D', 'A', 'D', 'G', 'B', 'E'],
+  'DROP Db':      ['Db','Ab','Db','Gb','Bb','Eb'],
+  'DBL DROP D':   ['D', 'A', 'D', 'G', 'B', 'D'],
+  'OPEN A':       ['E', 'A', 'C#','E', 'A', 'E'],
+  'OPEN B':       ['B', 'F#','B', 'F#','B', 'D#'],
+  'OPEN C':       ['C', 'G', 'C', 'G', 'C', 'E'],
+  'OPEN D':       ['D', 'A', 'D', 'F#','A', 'D'],
+  'OPEN E':       ['E', 'B', 'E', 'G#','B', 'E'],
+  'OPEN F':       ['C', 'F', 'C', 'F', 'A', 'F'],
+  'OPEN G':       ['D', 'G', 'D', 'G', 'B', 'D'],
+}
+
+// ******************************************************
+
 for (let i in keys) {
   const key = keys[i];
   if (key.chords) {
@@ -77,10 +95,11 @@ for (let i in keys) {
 
 // ******************************************************
 
-generateNoteNamesArray();
-generateNoteNamesOptions();
-generateScaleNamesArray();
-generateScaleIntervals();
+// generateNoteNamesArray();
+// generateNoteNamesOptions();
+// generateScaleNamesArray();
+// generateScaleIntervals();
+generateGuitarTuningOptions();
 
 // ******************************************************
 // ******************************************************
@@ -191,6 +210,29 @@ function generateScaleIntervals() {
     console.log(`  {${set.join(',')}},`.padEnd(42), ` // ${i}`.padEnd(6), `${id}`);
   });
   console.log(`};`);
+}
+
+// ******************************************************
+
+function generateGuitarTuningOptions() {
+
+  console.log();
+  console.log(`#define NUM_GUITAR_TUNINGS ${Object.keys(tunings).length}`);
+
+  console.log(`{`);
+  Object.keys(tunings).forEach((val, i) => {
+    console.log(`  {${i},`.padEnd(6), `(char *)"${val}"},`);
+  });
+  console.log(`};`);
+
+  console.log();
+  console.log(`const int GUITAR_TUNINGS[NUM_GUITAR_TUNINGS][NUM_STRUM_PDLS] = {`);
+  Object.entries(tunings).forEach(([tuning, notes], i) => {
+    const midis = notes.map((n,i) => Note.get(`${n}${tuningOctaves[i]}`).midi);
+    console.log(`  {${midis}},`.padEnd(25), ` // ${i}`.padEnd(7), `(${notes})`);
+  });
+  console.log(`};`);
+
 }
 
 // ******************************************************
