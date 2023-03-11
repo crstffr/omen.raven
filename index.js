@@ -73,6 +73,7 @@ const tunings = {
   'DROP D':       ['D', 'A', 'D', 'G', 'B', 'E'],
   'DROP Db':      ['Db','Ab','Db','Gb','Bb','Eb'],
   'DBL DROP D':   ['D', 'A', 'D', 'G', 'B', 'D'],
+  'DADGAD':       ['D', 'A', 'D', 'G', 'A', 'D'],
   'OPEN A':       ['E', 'A', 'C#','E', 'A', 'E'],
   'OPEN B':       ['B', 'F#','B', 'F#','B', 'D#'],
   'OPEN C':       ['C', 'G', 'C', 'G', 'C', 'E'],
